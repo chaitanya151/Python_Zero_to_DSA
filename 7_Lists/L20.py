@@ -1,0 +1,6 @@
+my_list = [10, -5, 8, 3, -1, -9, 7, 2]
+
+n = int(input("Enter the start position: "))
+l = int(input("Enter the last position: "))
+
+print(f"Result -> {my_list[n:l+1]}")
