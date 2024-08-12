@@ -1,2 +1,1 @@
-    my_dict[subjects] = marks
-    print(my_dict)
+"Gfg": 10
