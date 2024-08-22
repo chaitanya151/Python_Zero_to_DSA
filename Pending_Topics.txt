@@ -1,0 +1,7 @@
+Pending topic :
+Recursion 
+- reverse_list
+
+Tuple
+- revise
+
