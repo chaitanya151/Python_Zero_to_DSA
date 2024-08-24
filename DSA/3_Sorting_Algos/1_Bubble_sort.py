@@ -12,6 +12,7 @@ arr2 = [5, 6, 1, 9, 10, 14, 7]
 
 
 def bubble_sort(arr: List[int]) -> List[int]:
+    print(f"Original List = {arr}")
     l_arr = len(arr)
     print(f"Length of an array : {l_arr}")
     # setting pointer 'i' to second last element to avoid out of index error
@@ -28,6 +29,7 @@ print(f"bubble sort asec -> {bubble_sort(arr=arr)}")
 
 
 def bubble_sort_desc(arr2: List[int]) -> List[int]:
+    print(f"Original List = {arr2}")
     l_arr2 = len(arr2)
     print(f"Length of an array : {l_arr2}")
     for i in range(l_arr2 - 1, -1, -1):

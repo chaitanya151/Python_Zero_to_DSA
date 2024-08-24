@@ -5,3 +5,8 @@ Recursion
 Tuple
 - revise
 
+Sorting
+- Bubble
+- linear
+
+
