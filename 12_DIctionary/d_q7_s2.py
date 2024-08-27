@@ -21,7 +21,6 @@ details = {
     },
 }
 
-# Print the name and age of each student
-
-for name, detail in details.items():
-    print(f"{name}:{detail['age']}")
+for detail, name in details.items():
+    if name["adult"] == True:
+        print(detail)

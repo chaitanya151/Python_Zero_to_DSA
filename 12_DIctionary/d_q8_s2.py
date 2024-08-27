@@ -21,7 +21,11 @@ details = {
     },
 }
 
-# Print the name and age of each student
-
 for name, detail in details.items():
-    print(f"{name}:{detail['age']}")
+    if detail["marks"]:
+        n = len(detail["marks"])
+        total_marks = 0
+        for m in detail["marks"]:  # Iterate through the actual marks
+            total_marks += m
+            avg = total_marks / n
+        print(f"{name}: {avg}")

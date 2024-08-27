@@ -21,7 +21,10 @@ details = {
     },
 }
 
-# Print the name and age of each student
-
 for name, detail in details.items():
-    print(f"{name}:{detail['age']}")
+    if detail["marks"]:
+        max_marks = 0
+        for mark in detail["marks"]:
+            if mark >= max_marks:
+                max_marks = mark
+        print(name, max_marks)

@@ -1,5 +1,3 @@
-from typing import Dict, List
-
 details = {
     "Anirudh": {
         "age": 56,
@@ -21,7 +19,10 @@ details = {
     },
 }
 
-# Print the name and age of each student
 
 for name, detail in details.items():
-    print(f"{name}:{detail['age']}")
+    if detail["marks"]:
+        total_marks = 0
+        for m in detail["marks"]:
+            total_marks += m
+    print(f"{name}:{total_marks}")
