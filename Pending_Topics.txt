@@ -1,0 +1,48 @@
+Pending topic :
+Recursion 
+- reverse_list
+==================================================================================
+Tuple
+- revise
+==================================================================================
+Sorting
+- Bubble
+- linear
+==================================================================================
+Explain Generators and use case of it.
+A function or method which uses the yield statement is called a generator function. 
+Such a function, when called, always returns an iterator object which can be used 
+to execute the body of the function: calling the iterator’s iterator._next_()
+method will cause the function to execute until it provides 
+a value using the yield statement.
+
+When the function executes a return statement or falls off the end, 
+a StopIteration exception is raised and the iterator will have reached the 
+end of the set of values to be returned. Note that a generator can 
+have n numbers of yield statements
+
+Note: You can only iterate over a generator once, 
+if you try to loop over it second time it will return nothing. 
+Generators also do not store all the values in memory, 
+they generate the values on the fly
+
+When you call a generator function, the code you have written in 
+the function body does not run. 
+The function only returns the generator object.
+=================================================================================
+What is the difference between staticmethod and classmethod?
+=================================================================================
+Can set have lists as elements?
+You can't add a list to a set because lists are mutable, 
+meaning that you can change the contents of the list after adding it to the set. 
+You can however add tuples to the set, 
+because you cannot change the contents of a tuple.
+The objects have to be hashable so that finding, 
+adding and removing elements can be done faster than looking at each individual 
+element every time you perform these operations.
+
+Some unhashable datatypes:
+
+list: use tuple instead
+set: use frozenset instead
+================================================================================

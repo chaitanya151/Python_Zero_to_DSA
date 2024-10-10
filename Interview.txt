@@ -1,0 +1,406 @@
+Interview Questions
+-------------------
+
+text
+
+Hello, world , this , world
+is , fantastic, place
+to ,live
+world, is, wow
+
+1. Number of words on each line
+
+
+df1 = spark.read.text('path to the txt file')
+
+df2 = df1.select(explode(df1).alias("col"))
+
+df3 = df2.groupby("col").count()
+
+df3.show()
+
+product_id order_name amount Date_time
+chair_1		" A0"		50		2 pm date
+Query to return latest order for a product 
+based on datetime
+
+with duplicates 
+
+select name, count(*)
+from table_name
+group by name
+having count(*) > 1
+--------------------------------------------------------------------------------------------------------------------------
+with cte1 (
+	select product_id, max(datetime) as latest_time
+	from table_name
+	group by product_id
+)
+
+select * from table_name t
+join cte1 c on
+c.product_d = t.product_d
+limit 1
+
+inner join - 
+LJ - inner + left = 7 + 7 = 14
+RJ - inner + right = 7 + 7 = 14
+FO -  5
+--------------------------------------------------------------------------------------------------------------------------
+data = [("Banana",1000,"USA"), ("Carrots",1500,"USA"), ("Beans",1600,"USA"), 
+		  ("Orange",2000,"USA"),("Orange",2000,"USA"),("Banana",400,"China"), 
+		  ("Carrots",1200,"China"),("Beans",1500,"China"),("Orange",4000,"China"), 
+		  ("Banana",2000,"Canada"),("Carrots",2000,"Canada"),("Beans",2000,"Mexico")]
+		  
+	scheam = ['Product','Amount','Country']
+
+	# DF created
+	df = spark.CreateDataframe(Data,schema)
+
+	# store to HDFS 
+	hdfs_path = ' '
+	df.write.mode().fileformat(hdfs_path)
+--------------------------------------------------------------------------------------------------------------------------
+Path - hdfs://mydata/source/order.parquet
+columns - order_id , item_quantity, total_price , loadedtime
+ 
+Data Pattern :
+ 
+1 10 200 100002377788
+1 30 200 488882377766
+ 
+2 55 600 100002377788
+ 
+
+Output column - order_id , Loaded Date , all_item_price
+
+total_price=item_quantity*total_price
+
+df = spark.read.parquet()
+df2 = df.groupby(col('order_id')).select(col('order_id'),('Loaded_date'), (sum('total_price').alias("Total_price"))
+df2.show()
+
+play80
+
+8828416167 - Sneha PWC
+--------------------------------------------------------------------------------------------------------------------------
+Employee table:  ( employee_id, empl_name, job_level, join_date )
+Salary table: ( employee_id, monthly_salary, salary_date)
+1. fetch employees in each job_level 
+
+fy2021 (Apr2021-Mar2022)
+
+with cte as(
+	select employee_id, max(salary) over(partiton by job_level) as max_salary from salary
+	where date between '' and ''
+)
+
+select e.employee_id, max_salary
+from cte c
+join c.employee_id = e.employee_id
+order by max_salary desc
+--------------------------------------------------------------------------------------------------------------------------
+l = [('A',5),('B',10),('C',15)]
+Output -
+C,15
+B,10
+A,5
+
+length = len(l)
+for t in range(1,length):
+	e_l = []
+	if l[l-1][1] < l[l][1]:
+		e_l.append(l[1][1])
+
+sorted(team_name, lambda i:i[1])
+
+emp_id,  emp_name,  manager_emp_id, city
+
+
+manager_emp_id, manager_name
+
+1 - self join
+2 - distinct
+
+select distinct t.manager_id, e.emp_name as manager_name
+from table 1 t
+join table 1 e on t.manager_id = e.emp_id
+
+
+or_id, or_amt, num_of_item , or_date		rn
+1,		100,	2,			Jan-1-2024		1	
+1,		150,	3,			Jan-4-2024		2
+1,		200,	2,			Jan-5-2024		3
+2,		500,	5,			Jan-1-2024		1
+2,		400,	3,			Jan-3-2024		2
+2,		300,	2,			Jan-5-2024		3
+2,		300,	3,			Jan-9-2024		4
+
+
+diff_amount
+
+- min and max
+- last()
+- rank function
+
+- window_df = window.partitionBy("or_id").orderBy("or_date")
+df = withcolumn("first_order", first.over(window_df)).
+	withcolumn("last_order", last.over(window_df))
+	df -- 
+	
+- groupBy("id").agg(last("last_order")-first("first_order))
+
+--------------------------------------------------------------------------------------------------------------------------
+We have a table called BookAuthor. 
+It has two columns Book and Author, 
+Book being unique column.
+Write a query to find the names of the authors who have written more than 10 books
+
+Table - BookAuthor
+col - Book Author
+
+
+select Author, count(Book) as Book_Count
+from BookAuthor
+group by Author
+having count(Book) > 10
+--------------------------------------------------------------------------------------------------------------------------
+PWC
+
+worldcup country
+
+with cte as(
+select country,
+lag(country) over(partition by Wordcupnum) as previous_rnk
+from table_name)
+
+select country from cte where country = previous_rnk
+
+Wordcupnum	Country 		rnk
+1			West Indies		1
+2			West Indies		2
+3			India			1
+4			Australia		1
+5			Pakistan		1		
+6			Srilanka		1
+7			Australia		
+8			Australia		3
+9			Australia		4
+10			India			2
+11			Australia		2
+12			England			1
+13			Australia		5
+--------------------------------------------------------------------------------------------------------------------------
+df1 = 
+df2 = 
+
+df3 = df1.join(df2, df1.id = df2.id, "inner")
+
+Input:
+Weather table:
++----+------------+-------------+-------+
+| id | recordDate | temperature | diff	|
++----+------------+-------------+-------+
+| 1 | 2015-01-01  | 10      |-	|	-	|
+| 2 | 2015-01-02  | 25      |10	|	15	|
+| 3 | 2015-01-03  | 20      |25 |	-5	|
+| 4 | 2015-01-04  | 30      |20 |	10	|
++----+------------+-------------+--------
+
+Id is primary key 
+Find all Id's with higher temperatures compared to its previous dates/Id's (yesterday).
+ 
+Output:
++----+
+| id |
++----+
+| 2  |
+| 4  |
++----+
+
+with cte as(
+select *,
+lag(temperature,1) over(order by id) as inc_temperature
+from weather table)
+
+select id,
+temperature - inc_temperature as diff_temp
+from cte
+where diff_temp > 0
+
+window_df = orderby(id)
+df_2 = df.withcolumn('inc_temperature', lag(temperature).over(window_df))).select("*")
+df_3 = df2.withcolumn('diff', col("temperature") - col("inc_temperature")).select("*")
+df_filter = df_3.filter(col("diff")>0)
+df_filter.show()
+---------------------------------------------------------------------------------------------------------------------------
+customer -> id, name, city
+						null 
+select city, count(*) as num_of_customer,
+case when city is NULL then 'no_value' end as city
+from customer
+group by city
+having count(*) > 100
+
+data=spark.read.csv("path_to_the_bucket")
+schema = "id int, city string, name string"
+
+df1 = spark.CreateDataFrame(data, schema)
+
+windowdf = Window.partitonBy('city').orderBy("id")
+df2 = withColumn("num_of_customer", agg(count(*).over(windowdf)), when(col("city") == NULL, "no_value"))\
+																	.otherwise(col("city")))
+df3 = df2.filter(col("num_of_customer")>100)
+df3 = df3.select(col("city"), col("num_of_customer"))
+df3.show()
+--------------------------------------------------------------------------------------------------------------------------
+SQL:
+student_Scores (Stud_ID,Subject_ID,Marks)
+student (stud_ID,Stud_Name )
+ 
+1)Write query that  lists the students who have score more than 50
+in all the subjects
+ 
+Note:
+There is no fixed count of subjects for students
+Each student can take multiple subjects
+ 
+ 
+ stud_id subject_id marks
+ 1			1		55		--
+ 1			2		40
+ 1			3		65		--	
+ 1			4		30	
+------------------------------ 
+ 2			1		65
+ 2			5		67
+ 2			6		61
+ ------------------------------
+ - make cte
+ - join student
+ 
+ with cte as(
+	select *,
+	count(marks) as marks
+	from student_Scores
+	having count(marks) > 50
+ )
+ 
+ select id from cte
+ group by id
+---------------------------------------------------------------------------------------------------------------------------
+group by
+having
+select 
+from
+joins
+where
+
+from
+joins 
+where
+group by
+having
+select
+order by
+
+EMP_ID, NAME, DEPT, SALARY
+1, 		Robert, DS, 15000
+2, 		Tiff, DA, 10000
+3, 		John, Product, 25000
+4, 		Raj, DE, 10000
+
+with cte as(
+	select *, 
+	dense_rank() over(partition by DEPT order by SALARY DESC) as r_num
+	from table
+)
+
+select emp_id, dept, salary
+from cte 
+where r_num = 3
+=======================================================================
+ID
+0
+1
+1
+NULL
+
+TABLE_2:
+
+ID
+0
+1
+2
+NULL
+
+inner = 1+2 = 3
+left join = 3+4 = 7
+full join = 3+4+4 = 11
+--------------------------------------------------------------------------------------------------------------------------
+emp_data :
+ 
+emp_id mob_no   Address	        Flag
+123	 7777777	 Bangalore		Y
+456   8888888	 Chennai		Y
+789   9999999	 Pune			Y
+124   6666666	 Hyderabad		Y
+333   9199191	 Delhi			Y
+ 
+emp_latest :  
+ 
+emp_id mob_no   Address
+789   9999999   Bangalore
+124   6666666   Hyderabad
+333   9199191   Bangalore
+444   7171717   Jaipur
+ 
+ 
+Output :
+ 
+emp_id  mob_no  Address           Flag
+123   7777777   Bangalore          Y
+456   8888888   Chennai            Y
+789   9999999   Pune               N
+124   6666666   Hyderabad          Y
+333   9199191   Delhi              N
+444   7171717   Jaipur             Y
+789   9999999   Bangalore          Y
+333   9199191   Bangalore          Y
+
+with cte as (
+
+	select * from emp_data ed
+	right join emp_latest el
+	on ed.id = el.id
+),
+cte2 (
+select *
+case when el.address != ed.address then el.address end as new_Address 
+case when 
+from cte)
+
+select *
+case when new_Address != Address Then Flag = 'N' else 'Y' end as FLAG
+from cte2
+order by emp_id
+ch_even = "tigers"
+
+
+ch = "tiger"
+
+output = "gitre"
+
+str_1 = ""
+n = len(ch)
+mid_point = n//2
+for i in range(mid_point):
+		ch[i] , ch[mid_point+1] = ch[mid_point+1], ch[i]
+		str_1 += ch[i]
+
+if n%2 !=0:
+	str_1 += ch[-1]
+
+print(str_1)
+
+---------------------------------------------------------------------------------------------------------------------------
