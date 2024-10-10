@@ -404,3 +404,49 @@ if n%2 !=0:
 print(str_1)
 
 ---------------------------------------------------------------------------------------------------------------------------
+EY
+What is checkpointing in spark streaming?
+What is watermarking in spark streaming ?
+Streaming scenario question
+Shuffle hash join in spark. Better to read all the joins.
+
+Source Table 	Target Table	Output
+id, Name	id, Name	id, status
+1, A		1, A		3, New in Source Table
+2, B		2, B		5, New in Target Table
+3, C		4, C		4, Update data
+4, D		5, D
+
+id date_time   next_date
+1  02-02-2024
+1  03-02-2024
+2  05-03-2024
+3  08-04-2024
+3  09-04-2024
+3  10-04-2024
+
+Something on date_time -> Lead was used to get the output
+---------------------------------------------------------------------------------------------------------------------------
+NTT Data
+1. Decorators, generators.
+2. Prime number python code.
+3. List comprehension.
+4. Spark Architecture.
+5. Optimization techniques in spark.
+6. SQL code to get inner join, right join, left join and full outer join row count.
+----------------------------------------------------------------------------------------------------------------------------
+ZS 3 Rounds
+SQL + logical thinking and approach was checked along with pyspark code writing and SQL query writing.
+SCD types and implementation.
+
+2nd round
+2 SQL questions and way of thinking and logical answer + Query writing
+Puzzle 3litre, 5 litre -> 4 litres
+
+3rd round
+full pyspark script
+remove duplicate rows
+SQL query
+Guesstimate
+Project Lead related questions - scenarios
+-------------------------------------------------------------------------------------------------------------------------------
