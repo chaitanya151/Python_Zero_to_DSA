@@ -82,7 +82,6 @@ df2.show()
 
 play80
 
-8828416167 - Sneha PWC
 --------------------------------------------------------------------------------------------------------------------------
 Employee table:  ( employee_id, empl_name, job_level, join_date )
 Salary table: ( employee_id, monthly_salary, salary_date)
@@ -404,3 +403,207 @@ if n%2 !=0:
 print(str_1)
 
 ---------------------------------------------------------------------------------------------------------------------------
+df->
+combined_col
+------------------
+91.India.IN
+1.United States.US
+93.Afghanistan.AF
+61.Australia.AU
+ 
+Expected output:
+ 
+phn_cd	| country	| cntry_cd
+-------------------------------
+91	|India			|IN
+1	|United States	|US
+93	|Afghanistan	|AF
+61	|Australia		|AU
+
+df1 = df.withColumn("phn_cd", split(df["combined_col"],".")[0])\
+	.withColumn("country", split(df["combined_col"],".")[1])\
+	.withColumn("cntry_cd", split(df["combined_col"],".")[2])\
+	.drop("combined_col")
+df1.show()
+=================================================================================
+Sample input:
+id	| Name		| Subject	| Marks
+1	| Prateek	| English	| 70
+2	| Vidya		| English	| 60
+3	| Vikash	| English	| 80
+4	| Jatin		| English	| 85
+1	| Prateek	| Arts		| 75
+2	| Vidya		| Arts		| 95
+3	| Vikash	| Arts		| 70
+4	| Jatin		| Arts		| 60
+1	| Prateek	| Maths		| 90
+2	| Vidya		| Maths		| 85
+3	| Vikash	| Maths		| 60
+4	| Jatin		| Maths		| 50
+
+Expected output:
+id	| Name		| Total_Marks
+3	| Vikash	| 140
+
+- 3rd highest total marks
+- arts is not considered
+
+df_f1 = df.filter(col(""subject") != "Arts")
+df2 = df.df_f1.groupby("id","Name").agg(sum("Marks")).orderby("Marks").alias("Total_Marks")
+window_df = Window.orderBy("Total_Marks").desc()
+sum_df = df.withColumn("rnk", row_number() over(window_df))
+r_df = sum_df.filter(col("rnk") == 3).select("id", "Name","Total_Marks")
+r_df.show()
+======================================================================
+str_1 = "Elephant"
+
+# max vowels
+
+id,name,age,salary 
+
+1,Alice,30,70000 
+
+2,Bob,35,80000 
+
+3,Charlie,,60000 
+
+4,Diana,40,90000 
+
+5,Eve,30,70000 
+
+1,Alice,30,70000 
+
+ , , , 
+
+6,Frank,28,50000 
+
+7,Grace,32,
+
+spark = SparkSession.builder.appName("App").GetOrCreate()
+
+df = spark.read.csv("path_to_the_csv", header=True, inferSchema = True)
+
+df.show()
+
+df_clean = df.dropna()
+
+df_remove_duplicate = df_clean.dropduplicate()
+
+df_remove_duplicate.show()
+
+x  | y
+
+---|---
+
+1  | A
+
+2  | B
+
+3  | C
+
+
+Table 2 
+
+
+x  | z
+
+---|---
+
+2  | X
+
+3  | Y
+
+4  | Z
+
+left join output
+
+===============================================================================
+a = [3, 5, 6, 7, 8, 10, 13, 17]
+b = [1, 2, 7, 8, 11, 12]
+# output = [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 17]
+# Write python code without using any inbuilt functions
+# You can utilize loops like While, For and append.
+# Not to use sort, set, +, extend
+
+Table_1
+age_1
+23
+23
+24
+26
+Null
+
+Table_2
+age_2
+23
+24
+Null
+23
+23
+23
+23
+25
+Null
+
+left join
+=================================================================================
+Turing.
+
+Design a system to process and aggregate real-time streaming data from multiple sources (e.g., Kafka, RabbitMQ). 
+Write a program to calculate the average value of a specific metric (e.g., temperature) every minute. 
+Consider fault tolerance, scalability, and performance optimizations in your design.
+
+
+
+
+Example output:
+
+Timestamp, AverageTemperature
+
+2024-06-15 10:00:00, 25.5
+
+2024-06-15 10:01:00, 26.0
+
+from pyspark.sql import sparksession
+from pyspark.sql.functions import avg, window
+
+spark = SparkSession.builder.appName("App").GetorCreate()
+
+stream = spark.readstream.format("kafka").load()
+
+avg_df = stream.groupBy(window("timestamp","1")).agg(avg("temperature")).alias("AverageTemperature")
+
+df_out = avg_df.writeStream.mode().format("console").start()
+
+df_out.awaitermination()
+
+
+
+
+
+
+
+
+----
+
+Consider a scenario where you have a 'students' table with columns student_id, student_name, 
+and enrollment_date. Write a query to find the number of students enrolled each month, 
+including months with zero enrollments.
+
+WITH date_series AS (
+    SELECT
+        generate_series(
+            date_trunc('month', MIN(enrollment_date)),  -- Start from the earliest enrollment
+            date_trunc('month', CURRENT_DATE),          -- End at the current month
+            interval '1 month'
+        ) AS month_start
+    FROM students
+)
+SELECT
+    ds.month_start AS month,
+    COUNT(s.student_id) AS enrollment_count
+FROM date_series ds
+LEFT JOIN students s
+    ON date_trunc('month', s.enrollment_date) = ds.month_start
+GROUP BY ds.month_start
+ORDER BY ds.month_start;
