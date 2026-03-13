@@ -9,21 +9,15 @@ to ,live
 world, is, wow
 
 1. Number of words on each line
-
-
 df1 = spark.read.text('path to the txt file')
-
 df2 = df1.select(explode(df1).alias("col"))
-
 df3 = df2.groupby("col").count()
-
 df3.show()
 
 product_id order_name amount Date_time
 chair_1		" A0"		50		2 pm date
 Query to return latest order for a product 
 based on datetime
-
 with duplicates 
 
 select name, count(*)
@@ -295,7 +289,6 @@ select
 from
 joins
 where
-
 from
 joins 
 where
@@ -387,21 +380,14 @@ order by emp_id
 ch_even = "tigers"
 
 
-ch = "tiger"
-
+input = "tiger"
 output = "gitre"
-
-str_1 = ""
-n = len(ch)
-mid_point = n//2
-for i in range(mid_point):
-		ch[i] , ch[mid_point+1] = ch[mid_point+1], ch[i]
-		str_1 += ch[i]
-
-if n%2 !=0:
-	str_1 += ch[-1]
-
-print(str_1)
+ch = "tiger"
+order = [2,1,0,4,3]
+result = ""
+for i in order:
+    result += ch[i]
+print(result)
 
 ---------------------------------------------------------------------------------------------------------------------------
 EY
@@ -450,3 +436,24 @@ SQL query
 Guesstimate
 Project Lead related questions - scenarios
 -------------------------------------------------------------------------------------------------------------------------------
+
+Company : IRIS
+L1:
+01. Deep copy and copy difference in python with example.
+02. Generators and Decorators in python where can we use them.
+03. Window Functions in SQL and there purpose. 
+    sales - 100,100,900. 
+    What will be output for row_number, rank, dense_rank ?
+04. Normalizationn in SQl
+05. Full load and incremental load.
+06. Transformations and actions in pyspark with examples.
+07. Difference between select and withColumn in pyspark.
+08. What is RDD and DataFrame ? What will you use for larger dataset.
+09. Read s3 using pyspark.
+10. What is Glue in AWS ? How can we optimize the glue jobs ?
+11. Explain Lambda and how it can be used in ETL ?
+12. What is lazy evaluation in pyspark ?
+13. Redshift (no knowlege as no hands-on)
+14. Difference between DataWareHouse and Delta Lake.
+15. Difference between Truncate, Delete and Drop in SQL.
+---------------------------------------------------------------------------------------------------------------------------------
